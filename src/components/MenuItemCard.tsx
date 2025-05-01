@@ -9,6 +9,7 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import WasteTracker from "./WasteTracker";
 import FeedbackForm from "./FeedbackForm";
+import NutritionSuggestions from "./NutritionSuggestions";
 import { Trash } from "lucide-react";
 
 export default function MenuItemCard({ item }: { item: MenuItem }) {
@@ -192,6 +193,9 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
                       ))}
                     </div>
                   </div>
+                  
+                  {/* Add Nutrition Suggestions */}
+                  <NutritionSuggestions item={item} />
                   
                   <Button 
                     onClick={() => {

@@ -1,5 +1,6 @@
 
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
 
 interface WasteTrackerProps {
   percentage: number;
@@ -39,8 +40,10 @@ export default function WasteTracker({
       )}
       <Progress 
         value={percentage} 
-        className={sizeClasses[size]} 
-        indicatorClassName={getColorClass()}
+        className={cn(sizeClasses[size], "bg-muted")}
+        style={{ 
+          "--progress-indicator-color": getColorClass().replace("bg-", "var(--") + ")",
+        } as React.CSSProperties}
       />
     </div>
   );

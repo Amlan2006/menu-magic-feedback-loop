@@ -38,3 +38,5 @@ export interface FeedbackData {
   wastePercentage?: number;
   submittedAt: string;
 }
+
+export type NutritionSuggestionType = 'balanced' | 'protein' | 'low-calorie' | 'vegan';
