@@ -10,12 +10,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import WasteTracker from "./WasteTracker";
 import FeedbackForm from "./FeedbackForm";
 import NutritionSuggestions from "./NutritionSuggestions";
-import { Trash } from "lucide-react";
+import { Trash, Utensils, Star } from "lucide-react";
 
 export default function MenuItemCard({ item }: { item: MenuItem }) {
   const { addToCart } = useCart();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isNutritionOpen, setIsNutritionOpen] = useState(false);
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -69,6 +70,26 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
           {item.wasteData && (
             <div className="mt-1">
               <WasteTracker percentage={item.wasteData.averageWastePercentage} size="sm" />
+              <div className="flex gap-2 mt-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="text-xs h-7 px-2 flex items-center border-restaurant-accent"
+                  onClick={() => setIsNutritionOpen(true)}
+                >
+                  <Utensils size={14} className="mr-1" />
+                  Nutrition
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="text-xs h-7 px-2 flex items-center border-restaurant-accent"
+                  onClick={() => setIsFeedbackOpen(true)}
+                >
+                  <Star size={14} className="mr-1" />
+                  Feedback
+                </Button>
+              </div>
             </div>
           )}
           
@@ -194,9 +215,6 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
                     </div>
                   </div>
                   
-                  {/* Add Nutrition Suggestions */}
-                  <NutritionSuggestions item={item} />
-                  
                   <Button 
                     onClick={() => {
                       addToCart(item);
@@ -219,6 +237,18 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
             <DialogTitle className="text-xl">Feedback</DialogTitle>
           </DialogHeader>
           <FeedbackForm item={item} onClose={() => setIsFeedbackOpen(false)} />
+        </DialogContent>
+      </Dialog>
+      
+      <Dialog open={isNutritionOpen} onOpenChange={setIsNutritionOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Nutrition Suggestions</DialogTitle>
+            <DialogDescription>
+              Personalized nutrition recommendations for {item.name}
+            </DialogDescription>
+          </DialogHeader>
+          <NutritionSuggestions item={item} />
         </DialogContent>
       </Dialog>
     </>
