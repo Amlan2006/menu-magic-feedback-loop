@@ -7,10 +7,14 @@ import StarRating from "./StarRating";
 import { useCart } from "@/context/CartContext";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import WasteTracker from "./WasteTracker";
+import FeedbackForm from "./FeedbackForm";
+import { Trash } from "lucide-react";
 
 export default function MenuItemCard({ item }: { item: MenuItem }) {
   const { addToCart } = useCart();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -60,6 +64,13 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
             interactive={false} 
             size={16}
           />
+          
+          {item.wasteData && (
+            <div className="mt-1">
+              <WasteTracker percentage={item.wasteData.averageWastePercentage} size="sm" />
+            </div>
+          )}
+          
           <CardDescription className="line-clamp-2 h-10 text-sm">
             {item.description}
           </CardDescription>
@@ -104,13 +115,38 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
                       <h3 className="font-semibold">Customer Rating</h3>
                       <p>{item.reviewCount} reviews</p>
                     </div>
-                    <StarRating 
-                      initialRating={item.averageRating} 
-                      interactive={true} 
-                      itemName={item.name.toLowerCase()}
-                      size={24}
-                    />
+                    <div className="flex items-center justify-between">
+                      <StarRating 
+                        initialRating={item.averageRating} 
+                        interactive={false}
+                        size={24}
+                      />
+                      <Button 
+                        onClick={() => {
+                          setIsDetailsOpen(false);
+                          setIsFeedbackOpen(true);
+                        }}
+                        variant="outline"
+                        size="sm"
+                        className="ml-2 text-xs"
+                      >
+                        Leave Feedback
+                      </Button>
+                    </div>
                   </div>
+                  
+                  {item.wasteData && (
+                    <div className="mt-4 p-3 bg-restaurant-light rounded-md">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Trash size={16} className="text-muted-foreground" />
+                        <h3 className="font-semibold">Waste Tracking</h3>
+                      </div>
+                      <WasteTracker percentage={item.wasteData.averageWastePercentage} size="md" />
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Last updated: {new Date(item.wasteData.lastUpdated).toLocaleDateString()}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div className="md:w-1/2">
                   <h3 className="font-semibold mb-2">Nutrition Information</h3>
@@ -170,6 +206,15 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
               </div>
             </DialogDescription>
           </DialogHeader>
+        </DialogContent>
+      </Dialog>
+      
+      <Dialog open={isFeedbackOpen} onOpenChange={setIsFeedbackOpen}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl">Feedback</DialogTitle>
+          </DialogHeader>
+          <FeedbackForm item={item} onClose={() => setIsFeedbackOpen(false)} />
         </DialogContent>
       </Dialog>
     </>

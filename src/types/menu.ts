@@ -17,6 +17,10 @@ export interface MenuItem {
   averageRating: number;
   reviewCount: number;
   popular: boolean;
+  wasteData?: {
+    averageWastePercentage: number;
+    lastUpdated: string;
+  };
 }
 
 export interface CartItem extends MenuItem {
@@ -26,3 +30,11 @@ export interface CartItem extends MenuItem {
 export type MenuCategory = 'appetizers' | 'main-courses' | 'desserts' | 'beverages' | 'sides';
 
 export type DietaryTag = 'vegetarian' | 'vegan' | 'gluten-free' | 'dairy-free' | 'nut-free' | 'spicy';
+
+export interface FeedbackData {
+  itemId: string;
+  rating: number;
+  comment?: string;
+  wastePercentage?: number;
+  submittedAt: string;
+}

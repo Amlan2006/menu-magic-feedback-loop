@@ -19,7 +19,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.7,
     reviewCount: 142,
-    popular: true
+    popular: true,
+    wasteData: {
+      averageWastePercentage: 15,
+      lastUpdated: "2025-04-20T12:00:00Z"
+    }
   },
   {
     id: "2",
@@ -38,7 +42,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.3,
     reviewCount: 89,
-    popular: false
+    popular: false,
+    wasteData: {
+      averageWastePercentage: 8,
+      lastUpdated: "2025-04-21T12:00:00Z"
+    }
   },
   {
     id: "3",
@@ -57,7 +65,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.9,
     reviewCount: 201,
-    popular: true
+    popular: true,
+    wasteData: {
+      averageWastePercentage: 5,
+      lastUpdated: "2025-04-19T12:00:00Z"
+    }
   },
   {
     id: "4",
@@ -76,7 +88,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.6,
     reviewCount: 112,
-    popular: true
+    popular: true,
+    wasteData: {
+      averageWastePercentage: 12,
+      lastUpdated: "2025-04-20T12:00:00Z"
+    }
   },
   {
     id: "5",
@@ -95,7 +111,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.5,
     reviewCount: 78,
-    popular: false
+    popular: false,
+    wasteData: {
+      averageWastePercentage: 22,
+      lastUpdated: "2025-04-18T12:00:00Z"
+    }
   },
   {
     id: "6",
@@ -114,7 +134,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.8,
     reviewCount: 156,
-    popular: true
+    popular: true,
+    wasteData: {
+      averageWastePercentage: 18,
+      lastUpdated: "2025-04-17T12:00:00Z"
+    }
   },
   {
     id: "7",
@@ -133,7 +157,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.2,
     reviewCount: 65,
-    popular: false
+    popular: false,
+    wasteData: {
+      averageWastePercentage: 10,
+      lastUpdated: "2025-04-19T12:00:00Z"
+    }
   },
   {
     id: "8",
@@ -152,7 +180,11 @@ export const menuItems: MenuItem[] = [
     },
     averageRating: 4.4,
     reviewCount: 92,
-    popular: true
+    popular: true,
+    wasteData: {
+      averageWastePercentage: 25,
+      lastUpdated: "2025-04-16T12:00:00Z"
+    }
   }
 ];
 
