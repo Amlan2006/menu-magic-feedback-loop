@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,10 +18,11 @@ export default function MenuItemCard({ item }: { item: MenuItem }) {
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
   
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD'
-    }).format(price);
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(price * 80); // Converting to Rupees (assuming 1 USD = 80 INR)
   };
 
   return (

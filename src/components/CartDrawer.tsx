@@ -1,4 +1,3 @@
-
 import {
   Sheet,
   SheetContent,
@@ -11,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/CartContext";
+import { useOrders } from "@/context/OrderContext";
+import { useUser } from "@/context/UserContext";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -18,21 +19,40 @@ import { toast } from "@/components/ui/sonner";
 
 export default function CartDrawer() {
   const { cartItems, removeFromCart, updateQuantity, clearCart, cartTotal, cartCount } = useCart();
+  const { placeOrder } = useOrders();
+  const { isAuthenticated } = useUser();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isOrderConfirmOpen, setIsOrderConfirmOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD'
-    }).format(price);
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(price * 80); // Converting to Rupees (assuming 1 USD = 80 INR)
   };
 
-  const handlePlaceOrder = () => {
-    setIsOrderConfirmOpen(false);
-    setIsCartOpen(false);
-    clearCart();
-    toast.success("Your order has been placed! It will be ready shortly.");
+  const handlePlaceOrder = async () => {
+    if (!isAuthenticated) {
+      toast.error("Please log in to place an order");
+      setIsOrderConfirmOpen(false);
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      await placeOrder(cartItems, cartTotal * 1.08);
+      setIsOrderConfirmOpen(false);
+      setIsCartOpen(false);
+      clearCart();
+      toast.success("Your order has been placed! It will be ready shortly.");
+    } catch (error) {
+      toast.error("Failed to place order. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -178,14 +198,20 @@ export default function CartDrawer() {
           </div>
           
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsOrderConfirmOpen(false)}>
+            <Button variant="outline" onClick={() => setIsOrderConfirmOpen(false)} disabled={isSubmitting}>
               Cancel
             </Button>
             <Button 
               className="bg-restaurant-primary hover:bg-restaurant-secondary"
               onClick={handlePlaceOrder}
+              disabled={isSubmitting}
             >
-              Confirm Order
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
+                  Processing...
+                </>
+              ) : 'Confirm Order'}
             </Button>
           </DialogFooter>
         </DialogContent>

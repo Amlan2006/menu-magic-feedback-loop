@@ -1,4 +1,3 @@
-
 export interface MenuItem {
   id: string;
   name: string;
@@ -40,3 +39,16 @@ export interface FeedbackData {
 }
 
 export type NutritionSuggestionType = 'balanced' | 'protein' | 'low-calorie' | 'vegan';
+
+export interface Order {
+  id: string;
+  userId: string;
+  userName: string;
+  items: CartItem[];
+  totalAmount: number;
+  status: 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled';
+  placedAt: string;
+  completedAt?: string;
+}
+
+export type OrderStatus = 'pending' | 'preparing' | 'ready' | 'completed' | 'cancelled';
